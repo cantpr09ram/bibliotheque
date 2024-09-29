@@ -12,5 +12,11 @@ def init_db():
 def get_users_collection():
     return db.users
 
-def get_library_collection():
-    return db.library
+def get_categories_collection():
+    return db.categories
+
+def get_books_collection():
+    return db.books
+
+def get_events_collection():
+    return db.events
