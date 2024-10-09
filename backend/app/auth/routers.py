@@ -9,7 +9,7 @@ from .dependencies import get_current_user
 
 router = APIRouter()
 
-@router.post("/token", response_model=Token)
+@router.post("/token", response_model=Token, tags=["auth"])
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -24,7 +24,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     )
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.post("/register", response_model=dict)
+@router.post("/register", response_model=dict, tags=["auth"])
 async def register(user: User):
     users_collection = get_users_collection()
     if users_collection.find_one({"username": user.username}):
@@ -35,6 +35,6 @@ async def register(user: User):
     result = users_collection.insert_one(user_dict)
     return {"message": "User created successfully", "user_id": str(result.inserted_id)}
 
-@router.get("/users/me")
+@router.get("/users/me", response_model=User, tags=["auth"])
 async def read_users_me(current_user: dict = Depends(get_current_user)):
     return current_user

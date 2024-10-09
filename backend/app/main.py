@@ -29,6 +29,6 @@ init_db()
 app.include_router(routers.router)
 app.include_router(api_router)
 
-@app.get("/")
+@app.get("/", deprecated=True)
 async def root():
     return {"message": "Hello World"}
